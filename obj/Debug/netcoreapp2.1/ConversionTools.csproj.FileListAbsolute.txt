@@ -1,0 +1,10 @@
+C:\Users\sumit\source\repos\ConversionTools\bin\Debug\netcoreapp2.1\ConversionTools.deps.json
+C:\Users\sumit\source\repos\ConversionTools\bin\Debug\netcoreapp2.1\ConversionTools.runtimeconfig.json
+C:\Users\sumit\source\repos\ConversionTools\bin\Debug\netcoreapp2.1\ConversionTools.runtimeconfig.dev.json
+C:\Users\sumit\source\repos\ConversionTools\bin\Debug\netcoreapp2.1\ConversionTools.dll
+C:\Users\sumit\source\repos\ConversionTools\bin\Debug\netcoreapp2.1\ConversionTools.pdb
+C:\Users\sumit\source\repos\ConversionTools\obj\Debug\netcoreapp2.1\ConversionTools.csproj.CoreCompileInputs.cache
+C:\Users\sumit\source\repos\ConversionTools\obj\Debug\netcoreapp2.1\ConversionTools.AssemblyInfoInputs.cache
+C:\Users\sumit\source\repos\ConversionTools\obj\Debug\netcoreapp2.1\ConversionTools.AssemblyInfo.cs
+C:\Users\sumit\source\repos\ConversionTools\obj\Debug\netcoreapp2.1\ConversionTools.dll
+C:\Users\sumit\source\repos\ConversionTools\obj\Debug\netcoreapp2.1\ConversionTools.pdb

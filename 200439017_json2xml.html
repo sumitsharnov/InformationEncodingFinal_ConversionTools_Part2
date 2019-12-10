@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JSON TO XML CONVERSION TOOL</title>
+    <meta charset="utf-8">
+    <!-- //ADD ON LIBRARY - BOOTSTRAP , CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- CONTAINER CLASS -->
+        <div class="jumbotron">
+            <!-- jumbotron - a big box - a grey box with rounded corners to display special content or information. -->
+            <h1 class="display-4">JSON TO XML</h1>
+            <p class="lead">Input JSON data. When you click on CONVERT button data should be displayed in XML format.</p>
+            <hr class="my-4">
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <form id="JSONForm">
+                    <div class="form-group">
+                        <label for="jsonTextarea">Input JSON Data</label><!-- //multiline text area -->
+                        <textarea class="form-control" id="jsonTextarea" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">CONVERT TO XML</button>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="xmlDisplay">XML Data</label><!-- //multiline text area -->
+                    <textarea class="form-control" id="xmlDisplay" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="copyXML" class="btn btn-primary">Click to copy JSON</button>
+                </div>
+                <div class="alert alert-primary" role="alert" id="message" style="display: none;">
+                    Use XML Formatter - <a target="_blank" href="https://www.xmlvalidation.com/" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="xmltojson" style="display: none;">
+                    Goto XML to JSON converter - <a target="_blank" href=" C:\\Users\\sumit\\source\repos\\ConversionTools\\200439017_xml2json.html" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="htmlfile" style="display: none;">
+                    My HTML file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.html" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="jsonfile" style="display: none;">
+                    My JSON file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.json" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="xmlfile" style="display: none;">
+                    My XML file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.xml" class="alert-link">click here!!</a>
+                </div>
+            </div>
+            </form>
+        </div>
+</body>
+<script type="text/javascript">
+    $("#copyXML").click(function () {
+        $("#xmlDisplay").select();
+        document.execCommand('copy');
+    });
+    $("#jsonTextarea").val('');
+    // javascript on form submit event will check whether input data in valid json
+    $('#JSONForm').submit(function (e) {
+        e.preventDefault();
+        var data = $('#jsonTextarea').val();
+        var myObj = JSON.parse(data);
+        $("#xmlDisplay").val(json2xml(myObj, ""));
+        $("#message").show();
+        $("#xmltojson").show();
+        $("#htmlfile").show();
+        $("#jsonfile").show();
+        $("#xmlfile").show();
+        
+        
+    });
+    /// Json To Xml
+    function json2xml(o, tab) {
+        var toXml = function (v, name, ind) {
+            var xml = "";
+            if (v instanceof Array) {
+                for (var i = 0, n = v.length; i < n; i++)
+                    xml += ind + toXml(v[i], name, ind + "\t") + "\n";
+            }
+            else if (typeof (v) == "object") {
+                var hasChild = false;
+                xml += ind + "<" + name;
+                for (var m in v) {
+                    if (m.charAt(0) == "@")
+                        xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
+                    else
+                        hasChild = true;
+                }
+                xml += hasChild ? ">" : "/>";
+                if (hasChild) {
+                    for (var m in v) {
+                        if (m == "#text")
+                            xml += v[m];
+                        else if (m == "#cdata")
+                            xml += "<![CDATA[" + v[m] + "]]>";
+                        else if (m.charAt(0) != "@")
+                            xml += toXml(v[m], m, ind + "\t");
+                    }
+                    xml += (xml.charAt(xml.length - 1) == "\n" ? ind : "") + "</" + name + ">";
+                }
+            }
+            else {
+                xml += ind + "<" + name + ">" + v.toString() + "</" + name + ">";
+            }
+            return xml;
+        }, xml = "";
+        for (var m in o)
+            xml += toXml(o[m], m, "");
+        return tab ? xml.replace(/\t/g, tab) : xml.replace(/\t|\n/g, "");
+    }
+</script>
+</html>

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>XML TO JSON CONVERSION TOOL</title>
+    <meta charset="utf-8">
+    <!-- //ADD ON LIBRARY - BOOTSTRAP , CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- CONTAINER CLASS -->
+        <div class="jumbotron">
+            <!-- jumbotron - a big box - a grey box with rounded corners to display special content or information. -->
+            <h1 class="display-4">XML to JSON</h1>
+            <p class="lead">Input XML data. When you click on CONVERT button data should be displayed in JSON format.</p>
+            <hr class="my-4">
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <form id="xmlForm">
+                    <div class="form-group">
+                        <label for="xmlTextarea">Input XML Data</label><!-- //multiline text area -->
+                        <textarea class="form-control" id="xmlTextarea" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">CONVERT TO JSON</button>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="jsonDisplay">JSON Data</label><!-- //multiline text area -->
+                    <textarea class="form-control" id="jsonDisplay" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="copyJSON" class="btn btn-primary">Click to copy JSON</button>
+                </div>
+                <div class="alert alert-primary" role="alert" id="jsontoxml" style="display: none;">
+                    Use JSON Formatter - <a target="_blank" href="https://jsonformatter.curiousconcept.com/" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="message" style="display: none;">
+                    Goto JSON to XML converter - <a target="_blank" href=" C:\\Users\\sumit\\source\repos\\ConversionTools\\200439017_json2xml.html" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="htmlfile" style="display: none;">
+                    My HTML file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.html" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="jsonfile" style="display: none;">
+                    My JSON file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.json" class="alert-link">click here!!</a>
+                </div>
+                <div class="alert alert-primary" role="alert" id="xmlfile" style="display: none;">
+                    My XML file- <a target="_blank" href=" C:\\Users\\sumit\\source\\repos\\InformationEncoding_FinalProject\\200439017.xml" class="alert-link">click here!!</a>
+                </div>
+            </div>
+            </form>
+        </div>
+</body>
+<script type="text/javascript">
+    $("#copyJSON").click(function(){
+        $("#jsonDisplay").select();
+        document.execCommand('copy');
+    });
+    $("#xmlTextarea").val('<xml>    </xml>');
+    // javascript on form submit event will check whether input data in valid json
+    $('#xmlForm').submit(function(e){
+        e.preventDefault();
+        var data = $('#xmlTextarea').val();
+        try {
+            var parsexmldata = $.parseXML(data);
+            $(parsexmldata).find('xml').each(function(){
+                $('#jsonDisplay').val("{" + XmlToJson(this) + "}");
+            });
+            $('#message').show();
+            $('#jsontoxml').show();
+            $("#htmlfile").show();
+            $("#jsonfile").show();
+            $("#xmlfile").show();
+            
+        }catch (err){
+            console.log(err);
+        }
+    });
+    // XML TO JSON
+    function XmlToJson(data){
+        var responseData = "";
+        $(data).children().each(function(){
+            if(this.childElementCount > 0){
+                responseData += '"' + this.tagName + '" :{';
+                responseData += XmlToJson(this);
+                responseData += '},';
+            }else{
+                responseData += '"' + this.tagName + '" : "' + $(this).text() + '",';
+            }
+        });
+        return responseData.substring(0, responseData.length - 1);;
+    }
+</script>
+</html>
